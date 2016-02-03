@@ -1,0 +1,85 @@
+﻿@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<html>
+<head>
+
+    <title>SignUp</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+    <link href="~/Content/themes/w3.css" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 40px;
+        }
+
+        .jumbotron {
+            background-color: rgba(238, 220, 168, 0.10);
+            text-align: center;
+        }
+    </style>
+    <script src="~/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+
+
+
+
+
+    </script>
+</head>
+<body style="background-color:#ffffff">
+
+    <div class="container-fluid">
+
+        <div class="jumbotron">
+            <h2>Login</h2>
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="well well-alert">
+                        <h4 class="text-danger">Your Email and Password is not correct. Try again</h4>
+                    </div>
+
+                    <form role="form" class="w3-container" method="post" action="/Home/Login">
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="Email" placeholder="Enter Email here" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="Password" placeholder="Enter Password here" />
+                        </div>
+                        <div class="form-group">
+                            
+                            <button class="btn btn-block" style="background-color: #81bfaa;color:white">Log In</button>
+                            
+                        </div>
+
+                    </form>
+
+
+
+
+                    
+
+
+
+
+
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</body>
+</html>
+
+
+
+

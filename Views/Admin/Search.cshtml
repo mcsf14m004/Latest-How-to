@@ -1,0 +1,102 @@
+﻿@using Mvc_HowTo.Models
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Login</title>
+    <link href="bootstrap.css" rel="stylesheet" />
+    <script src="bootstrap.js"></script>
+    <style>
+        body {
+            padding-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-7" style="background-color: ghostwhite">
+            <table class="table-hover table table-responsive table-condensed w3-tiny">
+                <caption><h2 style=" color:black;" class="text-center"> New Posts</h2></caption>
+                <tbody>
+                   @{var inc = 0;}
+                    @foreach (Post post in ViewBag.post)
+                    {
+                        
+                        var a = post.Likes - post.DisLikes;
+
+                        <tr>
+                            <td>
+                                <br />
+                                <a class="btn btn-danger btn-block" href=""> <span class="glyphicon glyphicon-chevron-up"></span></a>
+                                <h4 class="text-center" style=" color:black;"> @a</h4>
+                                <a class="btn btn-danger btn-block" href=""> <span class="glyphicon glyphicon-chevron-down"></span></a>
+                            </td>
+                            <td>
+                                <blockquote>
+                                    <a href="/Member/MemPostDetail?id=@post.Post_ID&mID=@post.Mem_ID" style="color:black">
+                                        <h3>@post.Post_Title</h3>
+                                        <p>
+                                            @post.Post_Description
+                                        </p>
+
+
+                                    </a>
+
+                                    <div class="col-md-3"></div>
+
+                                    @foreach (var mem in ViewBag.memList)
+                                    {
+                                        if (mem.M_ID == post.Mem_ID)
+                                        {
+                                            <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-primary">@mem.M_Name </a></footer>
+                                        }
+                                    }
+                                </blockquote>
+                            </td>
+                        </tr>
+                        inc++;
+                    }
+                    @if (inc == 0)
+                    {
+                        <tr>
+                            <td>No Posts To show</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-lg-3">
+            <div class="list-group">
+                <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">Categories</a>
+                @foreach (Category c in ViewBag.category)
+                {
+                    <input type="hidden" name="Cat_Id" id="Cat_Id" value="@c.Cat_Id" />
+                    <a class="list-group-item" id="LinkCat_@c.Cat_Id" href="~/Admin/Search?id=@c.Cat_Id">@c.Cat_Name</a>
+                }
+            </div>
+
+            <div class="list-group">
+                <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">City</a>
+                @foreach (City c in ViewBag.City)
+                {
+                    <input type="hidden" name="City_Id" id="City_Id" value="@c.City_Id" />
+                    <a class="list-group-item" href="~/Admin/SearchCity?id=@c.City_Id">@c.City_Name</a>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,181 @@
+﻿@model Mvc_HowTo.Models.Post
+
+@{
+    ViewBag.Title = "SearchByTitleMem";
+    Layout = "~/Views/Shared/_MemLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <title>Search</title>
+
+</head>
+<body>
+    <div class="container">
+
+    </div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8" style="background-color:antiquewhite">
+            <table class="table-hover table table-responsive table-condensed w3-tiny">
+                <caption>
+                    <h2>Posts You Searched</h2>
+
+                </caption>
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <blockquote>
+                                <a href="/Member/MemPostDetail" class="text-warning">
+                                    <h3>@ViewBag.post.Post_Title</h3>
+                                    <p>
+                                        @ViewBag.post.Post_Description
+                                    </p>
+                                </a>
+                                <!--Comments-->
+                                <div class="container-fluid">
+                                    <a href="#" data-toggle="collapse" data-target="#demo">Click to View Comments</a>
+                                    <div id="demo" class="collapse">
+                                        <table class="table-condensed table-responsive table-hover table">
+
+                                            <tr>
+                                                <td>
+                                                    <div class="container-fluid">
+
+                                                        <div>
+
+                                                            <blockquote>
+                                                                <h6>
+                                                                    I am about to create a new ASP.Net MVC5 web application.COMMENT
+                                                                </h6>
+
+
+                                                            </blockquote>
+                                                            <!--Replies-->
+
+                                                            <div class="container-fluid">
+
+                                                                <!--panel-->
+                                                                <div class="panel-group" id="accordion">
+                                                                    <div class="panel">
+                                                                        <!--Panel heading-->
+                                                                        <div class="panel-heading">
+                                                                            <a data-toggle="collapse" data-parent="#accordion" class="panel-title" data-target="#reply"> Click to View Replies</a>
+                                                                        </div><!--Panel heading-->
+                                                                        <div id="reply" class="collapse panel-collapse panel-body">
+                                                                            <table class="table table-condensed table-responsive table-hover">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-1"></div>
+                                                                                            <div class="col-md-11">
+
+                                                                                                <blockquote>
+                                                                                                    <h6>
+                                                                                                        This is reply on that comment.
+                                                                                                    </h6>
+                                                                                                    <footer class="blockquote-reverse ">Posted By : <a href="#" class="h5"> Peter North </a></footer>
+                                                                                                </blockquote>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <!--Panel Ends-->
+
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="container">
+
+                                </div>
+
+                                <div class="col-md-3"></div>
+
+                                @foreach (var mem in ViewBag.memList)
+                                {
+                                    if (mem.M_ID == ViewBag.post.Mem_ID)
+                                    {
+                                        <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-danger">@mem.M_Name </a></footer>
+                                    }
+                                }
+                            </blockquote>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+
+
+    <div class="col-lg-8" style="background-color:antiquewhite">
+        <table class="table-hover table table-responsive table-condensed w3-tiny">
+
+            <tbody>
+
+                @foreach (var post in Model)
+                {
+                    <tr>
+                        <td>
+                            <blockquote>
+                                <a href="/Home/PostDetail?id=@post.Post_ID" class="text-warning">
+                                    <h3>@post.Post_Title</h3>
+                                    <p>
+                                        @post.Post_Description
+                                    </p>
+
+                                </a>
+
+                                <div class="col-md-3"></div>
+
+                                @foreach (var mem in ViewBag.memList)
+                                {
+                                    if (mem.M_ID == post.Mem_ID)
+                                    {
+                                        <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-danger">@mem.M_Name </a></footer>
+                                    }
+                                }
+                            </blockquote>
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+</body>
+</html>
+

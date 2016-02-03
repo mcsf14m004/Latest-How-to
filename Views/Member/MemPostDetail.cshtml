@@ -1,0 +1,297 @@
+﻿@using Mvc_HowTo.Models
+@model Post
+@{
+    ViewBag.Title = "MemPostDetail";
+    Layout = "~/Views/Shared/_MemLayout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(main);
+    function main() {
+       // $("#tblComment").load("/Home/addComment");
+
+        $("#like").click(function () {
+            var data = {};
+            data.memID = "@ViewBag.id";
+            data.postID = "@Model.Post_ID";
+
+            var set = {
+                type: "POST",
+                data: data,
+                async: true,
+                url: "/Member/Like",
+                success: function (d) {
+                    var v = $("#rank").text();
+                    v++;
+                    
+                    $("#rank").text(v);
+                }
+
+            };
+            jQuery.ajax(set);
+            return false;
+           
+        });
+
+        //dislike function
+        $("#disLike").click(function () {
+            var data = {};
+            data.memID = "@ViewBag.id";
+            data.postID = "@Model.Post_ID";
+
+            var set = {
+                type: "POST",
+                data: data,
+                async: true,
+                url: "/Member/DisLike",
+                success: function (d) {
+                    var v = $("#rank").text();
+                    v--;
+
+                    $("#rank").text(v);
+                }
+
+            };
+            jQuery.ajax(set);
+            return false;
+
+        });
+       
+       
+        //$("#BtnCmt").click(function () {
+        //    var str = $("formCmt").serialize();
+        //    $.getJSON("/Member/AddComment", str, function (data) {
+        //        //var html = Mustache.to_html($("#comment").html(), { result: data });
+        //        //var v = "<tr> <td><div class=" + "container-fluid" + "><div>" +
+        //        //        "<blockquote><div class=" + "well" + "><h6>"+data.com.Description+"</h6></div>" +
+        //        //         " <footer class=" + "blockquote-reverse" + ">Commented By : <a href='#' class='h5'>"+data.member+" </a></footer>" +
+        //        //           "</blockquote></div></div></td></tr>";
+        //        //$("#tblComment").append(v);
+        //        //$("#tblComment").empty().append(html);
+        //        if (data)
+        //        {
+        //            alert("Hello");
+        //        }
+                
+        //    });
+        //});
+        //
+        //$("#formCmt").submit(function (event) {
+        //    event.preventDefault();
+        //    var form = $(this);
+        //    alert("OK");
+        //    //$("#tblComment").empty();
+        //    $.getJSON("/Member/addComment", form.serialize(), function (data) {
+        //        var html = Mustache.to_html($("#comment").html(), { result: d });
+        //        $("#tblComment").empty().append(html);
+        //    })
+        //   // $("#tblComment").load("/Member/addComment");
+        //});
+        $("#btnCmt").click(function () {
+            
+            var form = $("#formCmt");
+            //data = form.serialize();
+            var data = {};
+            
+            debugger;
+            var setting = {
+                type: "post",
+                data: data,
+                async: true,
+               
+                url: "/member/addcomment",
+                success: function (d) {
+                    debugger;
+                    var html = mustache.to_html($("#comment").html(), { result: d });
+                    //var v = "<tr> <td><div class=" + "container-fluid" + "><div>" +
+                    //                "<blockquote><div class=" + "well" + "><h6>"+d.com.description+"</h6></div>" +
+                    //                 " <footer class=" + "blockquote-reverse" + ">commented by : <a href='#' class='h5'>"+d.member+" </a></footer>" +
+                    //                   "</blockquote></div></div></td></tr>";
+                    //        $("#tblcomment").append(v);
+                           $("#tblcomment").empty().append(html);
+                }
+            };
+            jquery.ajax(setting);
+            return false;
+        });
+
+    };
+
+</script>
+<script id="comment" type="text/html">
+    
+        {{#result}}
+
+
+        <tr>
+            <td>
+                <div class="container-fluid">
+
+                    <div>
+
+                        <blockquote>
+                            <div class="well">
+                                <h6>{{com.Description}}</h6>
+                            </div>
+
+                            <footer class="blockquote-reverse ">Commented By : <a href="#" class="h5">{{member}} </a></footer>
+                        </blockquote>
+                        <!--Replies-->
+
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+
+
+
+
+        
+        {{/result}}
+    
+</script>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-8" style="background-color: ghostwhite">
+            <table class="table">
+                <caption><h2>@Model.Post_Title</h2></caption>
+                <tbody>
+                    @{
+
+                        var a = Model.Likes - Model.DisLikes;
+                        }
+                    <tr>
+                        <td>
+                            <br />
+                            <a class="btn btn-danger btn-block" id="like">Up Vote <span class="glyphicon glyphicon-thumbs-up"></span></a>
+                            <h4 class="text-center" id="rank" style=" color:black;"> @a</h4>
+                            <a class="btn btn-danger btn-block" id="disLike">Down Vote <span class="glyphicon glyphicon-thumbs-up"></span></a>
+                        </td>
+                        <td>
+                            <div class="row">
+                                
+                                <div class="col-md-12">
+
+                                    <blockquote>
+                                        <!--Post-->
+                                        <h5>
+                                           @Model.Post_Description
+                                        </h5>
+                                        @*<footer class="blockquote-reverse ">Posted By : <a href="#" class="h4"> Peter North </a></footer>*@
+                                    </blockquote>
+                                    <!--Comments-->
+                                    <div class="container-fluid">
+                                        
+                                        <div id="demo" >
+                                            <table class="table-condensed table-responsive table-hover table" id="tblComment">
+                                                
+                                               @foreach (CommentClass obj in ViewBag.comment)
+                                               {
+                                                   <tr>
+                                                       <td>
+                                                           <div class="container-fluid">
+
+                                                               <div>
+
+                    <blockquote>
+                        <div class="well">
+                            <h6>@obj.com.Description</h6>
+                        </div>
+
+                        <footer class="blockquote-reverse ">Commented By : <a href="#" class="h5">@obj.member </a></footer>
+                    </blockquote>
+                    <!--Replies-->
+
+                </div>
+                                                            </div>
+
+                                                        </td>
+                                                   </tr>
+
+                                               }
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <!--Add Comment-->
+                <tfoot>
+
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-8">
+                                    <div>
+                                        <h2>Your Comment:</h2>
+                                        @{Html.BeginForm("addComment", "Member", FormMethod.Post, new { id="formCmt",name="formCmt"});}
+                                        <div class="form-group">
+                                            @Html.TextArea("Description", new {@cols="80" , @rows="6" ,@class="form-control",@required="required"})
+                                            @Html.Hidden("Post_ID", @Model.Post_ID, new { @class="form_control"})
+                                            <input type="hidden" name="Mem_ID" id="Mem_ID" value="@ViewBag.id" />
+                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="btn-group btn-group-justified">
+                                                <div class="btn-group">
+                             
+                                                    <button type="submit" class="btn btn-success" id="btnCmt" name="btnCmt">Submit</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button type="reset" class="btn btn-success">Cancel</button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        @{Html.EndForm();}
+                                      
+                                    </div>
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+
+                        </td>
+                    </tr>
+                </tfoot><!--End Add Comment-->
+            </table><!--Table-->
+        </div>
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">Categories</a>
+                @foreach (Category c in ViewBag.category)
+                {
+                    <input type="hidden" name="Cat_Id" id="Cat_Id" value="@c.Cat_Id" />
+                    <a class="list-group-item" id="LinkCat_@c.Cat_Id" href="~/Member/Search?id=@c.Cat_Id">@c.Cat_Name</a>
+                }
+            </div>
+
+            <div class="list-group">
+                <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">City</a>
+                @foreach (City c in ViewBag.City)
+                {
+                    <input type="hidden" name="City_Id" id="City_Id" value="@c.City_Id" />
+                    <a class="list-group-item" href="~/Member/SearchCity?id=@c.City_Id">@c.City_Name</a>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

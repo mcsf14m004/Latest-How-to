@@ -1,0 +1,230 @@
+﻿@using Mvc_HowTo.Models
+@model Member
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <title>SignUp</title>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+    <link href="~/Content/themes/w3.css" rel="stylesheet" />
+    <style>
+        body {
+            padding-top: 40px;
+        }
+
+        .jumbotron {
+            background-color: rgba(238, 220, 168, 0.10);
+            text-align: center;
+        }
+    </style>
+    <script src="~/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#checking').hide();
+            $("#M_Email").focusin(function () {
+               
+                $("#M_Email").addClass("alert-link");
+            });
+           
+            $("#RePass").focusout(function () {
+                var $pass = $("#M_Password").val();
+                var $RePass = $("#RePass").val();
+                $("#PassWrong").text("");
+                if($pass != $RePass)
+                {
+                    $("#M_Password").val("");
+                    $("#RePass").val("");
+                    $("#PassWrong").text("Password does'nt matches");
+                    $("#M_Password").focus();
+                }
+                
+            });
+            $("#M_Email").focusout(function () {
+                
+                
+                var $Email = $('#M_Email').val();
+                
+                if ($('#M_Email').val() !="")
+                {
+                    $("#checking").show();
+                    $.getJSON("/Home/CheckEmail?Email=" + $Email, function (data) {
+
+                        if (data) {
+                            $("#M_Email").addClass("alert-danger");
+                            $("#checking").hide();
+                            $('#result').text("User already exists in database");
+                            $("#M_Email").val("");
+                            $("#M_Email").focus();
+                        }
+                        else {
+                            $("#checking").hide();
+                            $("#M_Email").addClass("alert-success");
+                            $('#result').text("Email ID available");
+                        }
+                    });
+                }
+                //alert('User Name ='+ userName);
+              
+                //    var set = {
+                //        type: "post",
+                    
+                //        async: true,
+                //        data: $Email, 
+                //        url: "/Home/CheckEmail",
+                //        success: function (d) {
+                //            if (d) {
+                //                $("#M_Email").addClass("alert-success");
+
+                //            }
+                //            else {
+                //                $("#M_Email").addClass("alert-primary");
+                //            }
+                //        }
+                //    };
+                //    jQuery.ajax(set);
+                //    return false;
+
+              
+                //});
+
+               
+
+
+            });
+
+        })
+
+    </script>
+        </head>
+        <body style="background-color:#ffffff">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <br /><br />
+                </div>
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-3">
+                       
+                     </div>
+
+                    <div class="col-lg-5 ">
+                        <div class="panel-heading" style="background-color: #81bfaa;color:white">
+                            <h3 class="panel-title"><strong>Sign Up</strong></h3>
+
+                            <div style="float:right; font-size: 80%; position: relative; top:-10px"></div>
+                        </div>
+                        @{Html.BeginForm("AddUser", "Home", FormMethod.Post, new { id="formAdd",name="formAdd",enctype="multipart/form-data"});}
+                       
+
+                        <div class="form-group">
+                            <br />
+                            @Html.TextBoxFor(Model => Model.M_Name, new { @placeholder = "Full Name", @class = "form-control", required="required" })
+                            @Html.ValidationMessageFor(Model=>Model.M_Name)
+                         </div>
+
+                        <div class="form-group">
+                            @Html.TextBoxFor(Model => Model.M_Email, new { @placeholder = "Email Address", type="email",@class = "form-control",required="required"})
+                            <div class="form-group" id="checking">Checking Name....</div>
+                            <div class="form-group" id="result"></div>
+                            @Html.ValidationMessageFor(Model => Model.M_Email)
+                        </div>
+                        <div class="form-group">
+                            <input type="date" name="M_DOB" id="M_DOB" class="form-control" placeholder="ReEmail" tabindex="3" required>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(Model => Model.M_Password, new { enctype="multipart/form-data",@placeholder = "Enter Password", type = "password", tabindex = "4", @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(Model => Model.M_Password)
+
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="password" name="RePass" id="RePass" class="form-control " placeholder="Confirm Password" tabindex="5" required>
+                                         
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="PassWrong"></div> 
+                        <div class="form-group">
+                            <label class="form-inline"><strong>Profile Picture</strong></label>
+                            <input type="file" class="form-group" name="file" id="file"/>
+                        </div> 
+                        
+                        <button type="submit" class="btn btn-success" tabindex="6">Create Account</button>
+
+                        <hr style="margin-top:10px;margin-bottom:10px;">
+                        
+                    @{Html.EndForm();}                          
+                       
+                    </div>
+                   
+                    <div class="col-lg-2">
+
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+        </body>
+        </html>
+
+
+
+
+
+
+
+
+
+
+<!--
+    <div class="form-group">
+                            <input type="text" name="Name" id="Name" class="form-control" placeholder="First Name" tabindex="1">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" name="Email" id="Email" class="form-control " placeholder="Email Address" tabindex="2">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="ReEmail" id="ReEmail" class="form-control " placeholder="Re-Enter Email" tabindex="3">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="date" name="DOB" id="DOB" class="form-control " placeholder="ReEmail" tabindex="3">
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="password" name="Password" id="Password" class="form-control " placeholder="Password" tabindex="5">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <input type="password" name="RePass" id="RePass" class="form-control " placeholder="Confirm Password" tabindex="6">
+                                </div>
+                            </div>
+                        </div>
+
+-->

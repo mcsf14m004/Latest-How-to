@@ -1,0 +1,190 @@
+﻿@using Mvc_HowTo.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MemLayout.cshtml";
+}
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+    <title>Index</title>
+    <style>
+        .jumbotron {
+            background-color: #81bfaa;
+            text-align: center;
+        }
+    </style>
+
+    <script src="~/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(MainFun);
+        function MainFun() {
+            $("#BtnSearch").click(function () {
+
+                $.getJSON("/Home/Search", $("#formSearch").serialize(), function (data) {
+
+                    alert("hello");
+                });
+            });
+
+           
+        };
+    </script>
+</head>
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-7" style="background-color: ghostwhite">
+                <table class="table-hover table table-responsive table-condensed w3-tiny">
+                    <caption>
+                        <form method="post" action="/Member/AddPost" role="form">
+
+                            <div class="form-group">
+                                <input type="hidden" name="M_ID" value="@ViewBag.id" />
+                                <label for="Post_Title" class="w3-label w3-large ">Title</label>
+                                <input type="text" required="required" name="Tittle" class="form-control" placeholder="What is the Title of your Post ?" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Post_Description" class="w3-label w3-large ">Description of Post</label>
+                                <textarea required="required" name="Description" class="form-control" rows="7" cols="6"></textarea>
+
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="sel1">Select Category:</label>
+                                        <select class="form-control" id="Category" name="Category" required>
+                                            <option value="0" id="0">-- Select Category --</option>
+                                            @foreach (Category c in ViewBag.category)
+                                            {
+                                                <option value="@c.Cat_Id" id="@c.Cat_Id">@c.Cat_Name</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="sel1">Select City:</label>
+                                        <select class="form-control" id="City" name="City" required>
+                                            <option value="0" id="0">-- Select City --</option>
+                                            @foreach (City c in ViewBag.City)
+                                            {
+                                                <option value="@c.City_Id" id="@c.City_Id">@c.City_Name</option>
+
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+                            
+
+                            <div class="form-group">
+                                <button class="btn btn-info" type="submit" id="add">Post Experience</button>
+                            </div>
+
+                        </form>
+                    
+                    
+                    
+                    <h2 style=" color:black;" class="text-center"> New Posts</h2></caption>
+                    <tbody>
+                        @{var inc = 0;}
+                        @foreach (Post post in Model)
+                        {
+
+                            var a = post.Likes - post.DisLikes;
+
+                            <tr>
+                                <td>
+                                    <br />
+                                    <a class="btn btn-danger btn-block"> <span class="glyphicon glyphicon-chevron-up"></span></a>
+                                    <h4 class="text-center" style=" color:black;"> @a</h4>
+                                    <a class="btn btn-danger btn-block"> <span class="glyphicon glyphicon-chevron-down"></span></a>
+                                </td>
+                                <td>
+                                    <blockquote>
+                                        <a href="/Member/MemPostDetail?id=@post.Post_ID&mID=@post.Mem_ID" style="color:black">
+                                            <h3>@post.Post_Title</h3>
+                                            <p>
+                                                @post.Post_Description
+                                            </p>
+
+
+                                        </a>
+
+                                        <div class="col-md-3"></div>
+
+                                        @foreach (var mem in ViewBag.memList)
+                                        {
+                                            if (mem.M_ID == post.Mem_ID)
+                                            {
+                                                <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-primary">@mem.M_Name </a></footer>
+                                            }
+                                        }
+                                    </blockquote>
+                                </td>
+                            </tr>
+                            inc++;
+                        }
+                        @if (inc == 0)
+                        {
+                            <tr>
+                                <td>No Posts To show</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-lg-3">
+                <div class="list-group">
+                    <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">Categories</a>
+                    @foreach (Category c in ViewBag.category)
+                    {
+                        <input type="hidden" name="Cat_Id" id="Cat_Id" value="@c.Cat_Id" />
+                        <a class="list-group-item" id="LinkCat_@c.Cat_Id" href="~/Member/Search?id=@c.Cat_Id">@c.Cat_Name</a>
+                    }
+                </div>
+
+                <div class="list-group">
+                    <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">City</a>
+                    @foreach (City c in ViewBag.City)
+                    {
+                        <input type="hidden" name="City_Id" id="City_Id" value="@c.City_Id" />
+                        <a class="list-group-item" href="~/Member/SearchCity?id=@c.City_Id">@c.City_Name</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

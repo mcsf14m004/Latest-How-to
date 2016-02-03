@@ -1,0 +1,134 @@
+﻿@using Mvc_HowTo.Models
+@model Mvc_HowTo.Models.Post
+
+@{
+    ViewBag.Title = "ViewAllPosts";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<html>
+<head>
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <title>Home</title>
+
+    <script src="~/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(MainFun);
+        function MainFun() {
+
+        };
+
+    </script>
+
+
+</head>
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-7" style="background-color: ghostwhite">
+                <table class="table-hover table table-responsive table-condensed w3-tiny">
+                    <caption>
+                        
+                        <h2 style=" color:black;" class="text-center"> All Posts</h2>
+                    </caption>
+                    <tbody>
+                        @{var inc = 0;}
+                        @foreach (Post post in ViewBag.Posts)
+                        {
+
+                            var a = post.Likes - post.DisLikes;
+
+                            <tr>
+                                <td>
+                                    <br />
+                                    <a class="btn btn-danger btn-block" id="like"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                                    <h4 class="text-center" id="rank" style=" color:black;"> @a</h4>
+                                    <a class="btn btn-danger btn-block" id="disLike"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+                                </td>
+                                <td>
+                                    <blockquote>
+
+                                        <a href="/Member/MemPostDetail?id=@post.Post_ID&mID=@post.Mem_ID" style="color:black">
+
+
+
+                                            @post.Post_Title
+
+
+                                            <p>
+                                                @post.Post_Description
+                                            </p>
+
+
+                                        </a>
+
+                                        @foreach (var mem in ViewBag.memList)
+                                        {
+                                            if (mem.M_ID == post.Mem_ID)
+                                            {
+                                            <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-primary">@mem.M_Name </a></footer>
+                                            }
+                                        }
+
+
+                                    </blockquote>
+
+                                </td>
+                                <td>
+
+                                    <a href="/Admin/Update/@post.Post_ID" class="btn btn-block">
+                                        <span class="glyphicon glyphicon-edit"></span> Update
+                                    </a>
+                                    <a href="/Admin/DelPost?id=@post.Post_ID" class="btn btn-block"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                                </td>
+                            </tr>
+                            inc++;
+                        }
+
+                        @if (inc == 0)
+                        {
+                            <tr>
+                                <td>No Posts To show</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-lg-3">
+                <div class="list-group">
+                    <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">Categories</a>
+                    @foreach (Category c in ViewBag.category)
+                    {
+                        <input type="hidden" name="Cat_Id" id="Cat_Id" value="@c.Cat_Id" />
+                        <a class="list-group-item" id="LinkCat_@c.Cat_Id" href="~/Member/Search?id=@c.Cat_Id">@c.Cat_Name</a>
+                    }
+                </div>
+
+                <div class="list-group">
+                    <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">City</a>
+                    @foreach (City c in ViewBag.City)
+                    {
+                        <input type="hidden" name="City_Id" id="City_Id" value="@c.City_Id" />
+                        <a class="list-group-item" href="~/Member/SearchCity?id=@c.City_Id">@c.City_Name</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+

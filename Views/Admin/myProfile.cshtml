@@ -1,0 +1,162 @@
+﻿@model Mvc_HowTo.Models.Member
+@using Mvc_HowTo.Models
+@{
+    ViewBag.Title = "myProfile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{ var im = "/Content/Images/img" + @Model.M_ID + ".jpg"; }
+<script src="~/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#UpdateForm").hide();
+        $("#UpdatePicDiv").hide();
+        $("#Btn").click(function () {
+            $("#UpdateForm").show();
+        });
+
+
+        $("#BtnSubmit").click(function () {
+            $("#UpdateForm").hide();
+        });
+
+        $("#ProfPic").click(function () {
+            $("#UpdatePicDiv").show();
+        });
+        $("#BtnUpdatePic").click(function () {
+            debugger;
+            var v = $("#file").val();
+            $.getJSON("/Member/UpdatePic", v, function (data) {
+                if(data)
+                {
+                    $("#DivImg").empty();
+                    $('#DivImg').append( '<img style="height:230px;width:190px" src="@im" alt="No Profile Picture" class="img-responsive" id="img"/>')
+                }
+            });
+            $("#UpdatePicDiv").hide();
+        });
+    });
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2" id="DivImg">
+
+            <img style="height:230px;width:190px" src="@im" alt="No Profile Picture" class="img-responsive" id="img" />
+            <br />
+
+            @*<input type="button" id="ProfPic" name="ProfPic" value="Update Profile Pic" class="btn btn-info" />
+
+
+                <div class="form-group " id="UpdatePicDiv">
+                    <label class="form-inline"><strong>Profile Picture</strong></label>
+                    <input type="file" class="form-group" name="file" id="file" />
+                    <input type="button" id="BtnUpdatePic" class="btn btn-info" />
+                </div>*@
+        </div>
+
+        <div class="col-md-3">
+            <table class="table table-hover w3-medium">
+                <tr>
+                    <th>User Name :</th>
+                    <td>@Model.M_Name</td>
+                </tr>
+                <tr>
+                    <th>DOB:</th>
+                    <td>@Model.M_DOB</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>@Model.M_Email</td>
+                </tr>
+                <tr>
+                    <th>Password:</th>
+                    <td>@Model.M_Password</td>
+                </tr>
+            </table>
+
+            <input type="button" id="Btn" name="Btn" value="Update Profile" class="btn btn-info" />
+            <div id="UpdateForm">
+                @{Html.BeginForm("UpdateProfile", "Admin", FormMethod.Post, new { @class = "form-group" });}
+
+                <input type="hidden" value="@Model.M_ID" name="M_ID" />
+                <div class="form-group">
+                    <br />
+
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Name: ")
+                    <input type="text" value="@Model.M_Name" class="form-group" name="M_Name" />
+                    @Html.Label("Password: ")
+                    <input type="text" value="@Model.M_Password" name="M_Password" class="form-group" />
+                    <input type="submit" value="Update" id="BtnSubmit" class="form-group btn btn-info" />
+                </div>
+                @{Html.EndForm();}
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-7" id="myPosts">
+            <table class="table-hover table table-responsive table-condensed w3-tiny table-bordered">
+                <caption>
+
+                    <h2 style=" color:black;" class="text-center"> My Posts</h2>
+                </caption>
+                <tbody>
+                    @{var inc = 0;}
+                    @foreach (Post post in ViewBag.Posts)
+                    {
+
+                        var a = post.Likes - post.DisLikes;
+
+                        <tr>
+                            <td>
+                                <br />
+                                <a class="btn btn-danger btn-block"> <span class="glyphicon glyphicon-chevron-up"></span></a>
+                                <h4 class="text-center" style=" color:black;"> @a</h4>
+                                <a class="btn btn-danger btn-block"> <span class="glyphicon glyphicon-chevron-down"></span></a>
+                            </td>
+                            <td>
+                                <blockquote>
+                                    <a href="/Member/MemPostDetail?id=@post.Post_ID&mID=@post.Mem_ID" style="color:black">
+                                        <h3>@post.Post_Title</h3>
+                                        <p>
+                                            @post.Post_Description
+                                        </p>
+
+
+                                    </a>
+
+                                    <div class="col-md-3"></div>
+
+                                    @foreach (var mem in ViewBag.memList)
+                                    {
+                                        if (mem.M_ID == post.Mem_ID)
+                                        {
+                                            <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-primary">@mem.M_Name </a></footer>
+                                        }
+                                    }
+                                </blockquote>
+                            </td>
+
+                        </tr>
+                                    inc++;
+                    }
+                    @if (inc == 0)
+                    {
+                        <tr>
+                            <td>No Posts To show</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="row" id="update">
+        <div class="col-md-5">
+
+        </div>
+    </div>
+</div>

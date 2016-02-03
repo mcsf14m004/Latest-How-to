@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="HowTo" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\HowTo.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="HowToConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="Cat_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cat_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Category_Post" Member="Posts" ThisKey="Cat_Id" OtherKey="Cat_ID" Type="Post" />
+    </Type>
+  </Table>
+  <Table Name="dbo.City" Member="Cities">
+    <Type Name="City">
+      <Column Name="City_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="City_Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="City_Post" Member="Posts" ThisKey="City_Id" OtherKey="City_ID" Type="Post" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Post" Member="Posts">
+    <Type Name="Post">
+      <Column Name="Post_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Post_Title" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Post_Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Mem_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Cat_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Likes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DisLikes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="City_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Post_Comment" Member="Comments" ThisKey="Post_ID" OtherKey="Post_ID" Type="Comment" />
+      <Association Name="Category_Post" Member="Category" ThisKey="Cat_ID" OtherKey="Cat_Id" Type="Category" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="City_Post" Member="City" ThisKey="City_ID" OtherKey="City_Id" Type="City" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Member_Post" Member="Member" ThisKey="Mem_ID" OtherKey="M_ID" Type="Member" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Member" Member="Members">
+    <Type Name="Member">
+      <Column Name="M_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="M_Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="M_Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="M_Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="M_DOB" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Rank" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Role" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Member_Post" Member="Posts" ThisKey="M_ID" OtherKey="Mem_ID" Type="Post" />
+      <Association Name="Member_Comment" Member="Comments" ThisKey="M_ID" OtherKey="Mem_ID" Type="Comment" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Comment" Member="Comments">
+    <Type Name="Comment">
+      <Column Name="C_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Post_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mem_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Member_Comment" Member="Member" ThisKey="Mem_ID" OtherKey="M_ID" Type="Member" IsForeignKey="true" />
+      <Association Name="Post_Comment" Member="Post" ThisKey="Post_ID" OtherKey="Post_ID" Type="Post" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.InsertComment" Method="InsertComment">
+    <Parameter Name="Desc" Parameter="desc" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="Mem_ID" Parameter="mem_ID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Post_ID" Parameter="post_ID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="InsertCommentResult">
+      <Column Name="C_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Post_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Mem_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

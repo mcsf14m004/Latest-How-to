@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <style>
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img 
+    {
+      width: 70%;
+      margin: auto;
+    }
+    </style>
+    <title>AddUser</title>
+</head>
+<body style="background-color:#e9e5e5">
+    <div>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!--logo!=======================================================================-->
+                
+                <div class="navbar-header">
+                    <br />
+                    <b><h2><font color="white" style="text-align:center">HowTo.Pk</font></h2></b>
+                    <br />
+                    <br />
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li><a href="#">Change Role</a></li>
+                            <li class="active"><a href="#">Add User</a></li> 
+                            <li><a href="#">Search User</a></li>                            
+                            <li><a href="#">Remove User</a></li>
+                            <li><a href="#">Update User</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+    </div>
+
+       <div class="modal-fade" id="popUpWindow">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!--header-->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-tital"><b>Add User</b></h3>
+                    </div>
+
+                    <!--Content area-->
+                    <div class="modal-body">
+
+                        <form role="form">
+                            
+                            <div class="form-group">
+                                <input type="email" name="E_mail" id="E_mail" class="form-control" placeholder="Email"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="password" name="Password" id="Password" class="form-control" placeholder="Password"/>
+                            </div>
+
+                            
+
+                            <div class="form-group">
+                                <input type="text" name="Name" id="Name" class="form-control" placeholder="Name"/>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" name="DOB" id="DOB" class="form-control" placeholder="DOB"/>
+                            </div>
+
+                            @*<div class="form-group">
+                                <input type="text" name="Gender" id="Gender" class="form-control" placeholder="Gender"/>
+                            </div>*@
+
+                            
+
+                            <div class="form-group">
+                                <input type="text" name="Address" id="Address" class="form-control" placeholder="Address"/>
+                            </div>
+
+                            
+
+                            @using (Html.BeginForm())
+                            {
+                                 <div class="form-group">
+                                       <div class="radio-inline">
+                                                @Html.RadioButton("gender", "Male", 
+                                                       new { id = "IsMale" }) Male
+                                       </div>
+                                       <div class="radio-inline">
+                                                @Html.RadioButton("gender", "Female",
+                                                       new { id = "IsFemale" }) Female
+                                       </div>
+                                 </div>
+                            }
+
+                            
+                            
+                              <!--Footere-->
+                           <div class="modal-footer">
+                               <button class="btn btn-primary btn-block" >Submit</button>
+                           </div>
+
+                        </form>
+
+                    
+                </div>
+            </div>
+        </div>        
+    </div>
+        
+    
+    </body>
+
+    </html>

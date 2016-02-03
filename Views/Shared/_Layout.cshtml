@@ -1,0 +1,167 @@
+﻿@using Mvc_HowTo.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/themes/w3.css" rel="stylesheet" />
+    <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+    
+    <title>@Page.Title</title>
+   
+
+
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    
+  
+</head>
+
+
+
+
+
+
+<body style="background-color: #d6ede5">
+    
+        <div id="id01" class="w3-modal">
+            <div class="w3-modal-content w3-animate-top modal-sm">
+                <header class="w3-container" style="background-color: #81bfaa;">
+                    <span onclick="document.getElementById('id01').style.display='none'"
+                          class="w3-closebtn">&times;</span>
+                    <h2 class="text-center">Login</h2>
+                </header>
+                <div class="w3-container">
+                    
+                        <div class="modal-body ">
+                            <form role="form" method="post" action="/Home/Login">
+                                <div class="form-group">
+                                    <label class="w3-label w3-text-brown"><b>Email</b></label>
+                                    <input type="email" name="Email" id="Email" class="form-control" placeholder="Enter Your Email" />
+
+                                </div><!--from group-->
+                                <div class="form-group">
+                                    <label class="w3-label w3-text-brown"><b>Password</b></label>
+                                    <input type="password" name="Password" id="Password" class="form-control" placeholder="Enter Your Password" />
+
+                                </div><!--from group-->
+
+                                <div class="form-group">
+                                    <button class="btn btn-success btn-block w3-round-large w3-xlarge" id="LoginBtn" name="LoginBtn">Log In</button>
+                                </div>
+
+                                @*<footer class="w3-container w3-brown">
+                  <div  class="w3-btn w3-brown" style="height:50px;width:850px"><h4>Log In</h4></div>
+                </footer>*@
+
+                            </form>
+
+                        </div>
+                    
+                  
+
+                </div>
+                
+            </div>
+        </div>
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+
+            </div>
+
+            <a href="#" class="navbar-brand  "><p class="text-primary"><h3><font style="color: white;font-family:Gabriola">HowTo.Pk</font></h3></p></a>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/Home/Index" class=" nav navbar-btn btn-block"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li><a href="/Home/SignUp" class="nav navbar-btn btn-block"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+                    <li><a href="#" onclick="document.getElementById('id01').style.display='block'" class="nav navbar-btn btn-block"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a class="nav navbar-btn"></a></li>
+
+                </ul>
+                <ul>
+                    
+                    <li>
+                        <form method="get"  id="formSearch" role="form" class="navbar-form nav">
+                            <div class="form-group form-inline">
+
+                                <select class="form-control" id="Category" name="Category" required>
+                                    <option value="0" id="0">-- Select Category --</option>
+                                    @foreach (Category c in ViewBag.category)
+                                    {
+                                        <option value="@c.Cat_Id" id="@c.Cat_Id">@c.Cat_Name</option>
+
+                                    }
+
+                                </select>
+
+                                <select class="form-control" id="City" name="City" required>
+                                    <option value="0" id="0">-- Select City --</option>
+                                    @foreach (City c in ViewBag.City)
+                                    {
+                                        <option value="@c.City_Id" id="@c.City_Id">@c.City_Name</option>
+
+                                    }
+
+                                </select>
+
+                                <button type="submit" class="btn btn-success" id="BtnSearch" style="background: #81bfaa">Search</button>
+
+                            </div>
+                        </form>
+            </li>
+            </ul>
+
+
+        </div>
+
+
+
+        </div>
+    </nav><!--Nav ends-->
+        <!--Jumbotron-->
+       
+        <header style="background-color: #24D3A8"></header>
+    
+    
+  
+
+
+        @RenderBody()
+    
+        
+        @RenderSection("scripts", required: false)
+        <footer class="modal-footer well">
+          
+            EnterPrise Application Development
+        </footer>
+    
+
+   
+   
+
+
+
+</body>
+
+
+
+
+
+
+</html>

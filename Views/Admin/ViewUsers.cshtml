@@ -1,0 +1,66 @@
+﻿@using Mvc_HowTo.Models;
+@{
+    ViewBag.Title = "ViewUsers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>
+                            Name:
+                        </th>
+                        <th>Email:</th>
+                        <th>Date Of Birth</th>
+                        <th>Role</th>
+                        <th>Delete</th>
+                        <th>Change Role</th>
+                        
+                    </tr>
+                    @{var count = 0;}
+                    @foreach (Member m in ViewBag.lst)
+                    {
+                     count++;   
+                        var a= "";
+                        if(m.Role.Equals(2))
+                                {
+                                   a = "Admin";
+                                }
+                                else
+                                {
+                                  a = "User";
+                                }
+                        <tr>
+                            <td>@count</td>
+                            <td>
+                                @m.M_Name
+
+                            </td>
+                            <td>@m.M_Email</td>
+                            <td>@m.M_DOB</td>
+                            <td>
+                                @a
+                            </td>
+                            <td>
+                                <a href="~/Admin/RemoveUser?id=@m.M_ID"><span class="glyphicon glyphicon-trash"></span> Delete this User</a>
+                            </td>
+                            <td>
+                                
+                                <a href="~/Admin/ChangeRole?id=@m.M_ID" >Change Role</a>
+                            </td>
+                        </tr>
+                    }
+                </thead>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+
+    </div>
+    
+</div>

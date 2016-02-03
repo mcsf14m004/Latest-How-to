@@ -1,0 +1,167 @@
+﻿
+@using Mvc_HowTo.Models;
+
+
+@{
+    ViewBag.Title = "PostDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-8" style="background-color: ghostwhite">
+            <table class="table">
+                <caption><h2>@Model.Post_Title</h2></caption>
+                <tbody>
+                    @{
+
+                        var a = Model.Likes - Model.DisLikes;
+                    }
+                    <tr>
+                        <td>
+                            <br />
+                            <a class="btn btn-danger btn-block" id="like">Up Vote <span class="glyphicon glyphicon-thumbs-up"></span></a>
+                            <h4 class="text-center" id="rank" style=" color:black;"> @a</h4>
+                            <a class="btn btn-danger btn-block" id="disLike">Down Vote <span class="glyphicon glyphicon-thumbs-up"></span></a>
+                        </td>
+                        <td>
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+                                    <blockquote>
+                                        <!--Post-->
+                                        <h5>
+                                            @Model.Post_Description
+                                        </h5>
+                                        @*<footer class="blockquote-reverse ">Posted By : <a href="#" class="h4"> Peter North </a></footer>*@
+                                    </blockquote>
+                                    <!--Comments-->
+                                    <div class="container-fluid">
+
+                                        <div id="demo">
+                                            <table class="table-condensed table-responsive table-hover table">
+
+
+                                                @foreach (CommentClass obj in ViewBag.comment)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="container-fluid">
+
+                                                                <div>
+
+                                                                    <blockquote>
+                                                                        <div class="well">
+                                                                            <h6>@obj.com.Description</h6>
+                                                                        </div>
+
+                                                                        <footer class="blockquote-reverse ">Commented By : <a href="#" class="h5">@obj.member </a></footer>
+                                                                    </blockquote>
+                                                                    <!--Replies-->
+
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+
+
+
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <!--Add Comment-->
+                          </table><!--Table-->
+        </div>
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">Categories</a>
+                @foreach (Category c in ViewBag.category)
+                {
+                    <input type="hidden" name="Cat_Id" id="Cat_Id" value="@c.Cat_Id" />
+                    <a class="list-group-item" id="LinkCat_@c.Cat_Id" href="~/Home/SearchCat?id=@c.Cat_Id">@c.Cat_Name</a>
+                }
+            </div>
+
+            <div class="list-group">
+                <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">City</a>
+                @foreach (City c in ViewBag.City)
+                {
+                    <input type="hidden" name="City_Id" id="City_Id" value="@c.City_Id" />
+                    <a class="list-group-item" href="~/Home/SearchCity?id=@c.City_Id">@c.City_Name</a>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+@*
+    <div class="container-fluid">
+
+                                                                      <!--panel-->
+                                                                      <div class="panel-group" id="accordion">
+                                                                          <div class="panel">
+                                                                              <!--Panel heading-->
+                                                                              <div class="panel-heading">
+                                                                                  <a data-toggle="collapse" data-parent="#accordion" class="panel-title" data-target="#reply"> Click to View Replies</a>
+                                                                              </div><!--Panel heading-->
+                                                                              <div id="reply" class="collapse panel-collapse panel-body">
+                                                                                  <table class="table table-condensed table-responsive table-hover">
+                                                                                      <tr>
+                                                                                          <td>
+                                                                                              @foreach (var reply in ViewBag.reply)
+                                                                                              {
+                                                                                                  <div class="row">
+                                                                                                      <div class="col-lg-1"></div>
+                                                                                                      <div class="col-lg-11">
+
+                                                                                                          <blockquote>
+                                                                                                              <h6>
+                                                                                                                  @reply.Reply_description
+                                                                                                              </h6>
+                                                                                                              @*<footer class="blockquote-reverse ">Posted By : <a href="#" class="h5"> Peter North </a></footer>
+                                                                                                            </blockquote>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                }
+
+                                                                                            </td>
+
+                                                                                        </tr>
+
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+<!--Panel Ends-->
+                                                                    </div>
+*@
+
+
+

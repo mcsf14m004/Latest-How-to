@@ -1,0 +1,177 @@
+﻿@using Mvc_HowTo.Models
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+   
+ 
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+    <title>Index</title>
+    <style>
+        .jumbotron {
+            background-color: #81bfaa;
+            text-align: center;
+        }
+
+    </style>
+    
+    <script src="~/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+        $(document).ready(MainFun);
+        function MainFun() {
+            $("#BtnSearch").click(function () {
+
+                $.getJSON("/Home/Search", $("#formSearch").serialize(), function (data) {
+
+                    alert("hello");
+                });
+            });
+
+
+        };
+    </script>
+
+        </head>
+        <body>
+
+
+
+
+            <div class="jumbotron" style="width:1263px;height:350px;">
+                <div class="row"><br /></div>
+                <div class="row ">
+                    <div class="col-md-4">
+                        <h3 class="h3">
+                            <font style="font-family:Gabriola;color:white">
+
+                                    <h2><b>New to HOWTO.PK?</b></h2><b>
+            It is an interaction forum for the public by which people can post their experiences for a particular service acquisition in Pakistan, and others can search for guidance.
+            This forum would enable a one window information process for any public sector service.
+        </b>
+                            </font>
+                        </h3>
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <h2><u><i>Here's How It Works</i></u></h2>
+                        <h3>
+                            <font style="font-family:Gabriola;color:black">
+
+                                <br />
+                                Any Body can search a Post and view comments on it.<br />
+                                Members of this community can Search a Post, Rate a post and comment on a post.
+                            </font>
+
+                        </h3>
+                    </div>
+                    <div class="col-md-3">
+                        <h2>
+                            <font style="font-family:Gabriola;color:black">
+                                <br />
+
+        </font>
+
+                        </h2>
+                        <h3>
+                            <font style="font-family:Gabriola;color:white">
+
+                                So,Be the part of this Community to access all these facilities<br />
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group">
+                                        <a href="/Home/SignUp" class="btn btn-primary">Sign Up</a>
+                                    </div>
+                                    
+
+                                </div>
+
+                            </font>
+                        </h3>
+                    </div>
+
+                </div>
+            </div>
+           
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-7" style="background-color: ghostwhite">
+                        <table class="table-hover table table-responsive table-condensed w3-tiny">
+                            <caption><h2  style=" color:black;" class="text-center" > New Posts</h2></caption>
+                            <tbody>
+
+                @foreach (Post post in Model)
+                        {
+
+                            var a = post.Likes - post.DisLikes;
+
+                            <tr>
+                                        <td>
+                                            <br />
+                                            <a class="btn btn-danger btn-block" > <span class="glyphicon glyphicon-chevron-up"></span></a>
+                                            <h4 class="text-center" style=" color:black;"> @a</h4>
+                                            <a class="btn btn-danger btn-block" > <span class="glyphicon glyphicon-chevron-down"></span></a>
+                                        </td>
+                                        <td>
+                                            <blockquote>
+                                                <a href="/Home/PostDetail?id=@post.Post_ID" style="color:black">
+                                                    <h3>@post.Post_Title</h3>
+                                                    <p>
+                                                         @post.Post_Description
+                                                    </p>
+
+
+                                                </a>
+
+                                                <div class="col-md-3"></div>
+
+                @foreach (var mem in ViewBag.memList)
+                                        {
+                                            if (mem.M_ID == post.Mem_ID)
+                                            {
+                                                <footer class="blockquote-reverse">Posted By : <a href="#" class="h4 text-primary">@mem.M_Name </a></footer>
+                                            }
+                                        }
+                                            </blockquote>
+                                        </td>
+                                    </tr>
+
+                        }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="list-group">
+                            <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">Categories</a>
+                    @foreach( Category c in ViewBag.category)
+                    {
+                        <input type="hidden" name="Cat_Id" id="Cat_Id" value="@c.Cat_Id"/>
+                        <a class="list-group-item" id="LinkCat_@c.Cat_Id" href="~/Home/SearchCat?id=@c.Cat_Id">@c.Cat_Name</a>
+                    }
+                        </div>
+
+                        <div class="list-group">
+                            <a href="" class="list-group-item" style="background-color: #81bfaa;color:white">City</a>
+                            @foreach( City c in ViewBag.City)
+                    {
+                                <input type="hidden" name="City_Id" id="City_Id" value="@c.City_Id" />
+                                <a class="list-group-item"  href="~/Home/SearchCity?id=@c.City_Id">@c.City_Name</a>
+                    }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </body>
+        </html>

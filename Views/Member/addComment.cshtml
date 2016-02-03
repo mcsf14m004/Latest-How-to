@@ -1,0 +1,26 @@
+﻿@using Mvc_HowTo.Models
+@model List<CommentClass>
+
+@foreach (CommentClass obj in Model)
+{
+    <tr>
+        <td>
+            <div class="container-fluid">
+
+                <div>
+
+                    <blockquote>
+                        <div class="well">
+                            <h6>@obj.com.Description</h6>
+                        </div>
+
+                        <footer class="blockquote-reverse ">Commented By : <a href="#" class="h5">@obj.member </a></footer>
+                    </blockquote>
+                    <!--Replies-->
+
+                </div>
+            </div>
+
+        </td>
+    </tr>
+}
